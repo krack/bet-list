@@ -51,7 +51,7 @@ var storageAutenticationUrl = process.env.STORAGE_AUTHENTICATION_URL;
 var storageRegion = process.env.STORAGE_REGION;
 var facebook_api_key= process.env.FACEBOOK_API_KEY;
 var facebook_api_secret= process.env.FACEBOOK_API_SECRET;
-var callback_url= serverHost+":"+port+"/auth/facebook/callback";
+var callback_url= serverHost+":"+portPublic+"/auth/facebook/callback";
 //end config
 /***********/
 
