@@ -1,0 +1,47 @@
+version: '2'
+services:
+  #database : mongo db
+  mongo:
+    image: mongo:latest
+    volumes:
+    - /opt/mongodb/dbBets:/data/db
+    restart: always
+  #rest api engie : node + code
+  load-balancer-api:
+    ports:
+    - ${HOST_PORT_API}
+    image: rancher/lb-service-haproxy:v0.6.4
+    labels:
+      proxy_url: ${EXPOSE_API_URL}
+  api:
+    image: krack/bet-list-api:${TAG}
+    links:
+    - mongo
+    restart: always
+    environment:
+    - ALLOW_URL=http://${EXPOSE_SITE_URL}
+    - SERVER_HOST=http://${EXPOSE_API_URL}
+    - SERVER_PORT=${HOST_PORT_API}
+    - SERVER_PUBLIC_PORT=80
+    - STORAGE_USERNAME=${STORAGE_USERNAME}
+    - STORAGE_PASSWORD=${STORAGE_PASSWORD}
+    - STORAGE_TENANT_ID=${STORAGE_TENANT_ID}
+    - STORAGE_AUTHENTICATION_URL=${STORAGE_AUTHENTICATION_URL}
+    - STORAGE_REGION=${STORAGE_REGION}
+    - FACEBOOK_API_KEY=${FACEBOOK_API_KEY}
+    - FACEBOOK_API_SECRET=${FACEBOOK_API_SECRET}
+    labels:
+      io.rancher.container.pull_image: always
+  #web site : static with apache
+  load-balancer-web:
+    ports:
+    - ${HOST_PORT_WEB}
+    image: rancher/lb-service-haproxy:v0.6.4
+    labels:
+      proxy_url: ${EXPOSE_SITE_URL}
+  web:
+    image: httpd:2.4
+    image: krack/bet-list-web:${TAG}
+    restart: always
+    labels:
+      io.rancher.container.pull_image: always

@@ -1,0 +1,58 @@
+
+$fa-font-path: "//netdna.bootstrapcdn.com/font-awesome/4.7.0/fonts";
+@import '~font-awesome/scss/font-awesome.scss';
+
+@import "../themes";
+h1{
+	font-family: BaroqueScriptRegular;
+	color: $secondary-color; 
+	text-shadow: 1px 1px #000, -1px 1px #000, -1px -1px #000, 1px -1px #000;
+	margin:0px;
+}
+
+.body{
+	border-spacing: 5px;
+	display: table;
+	width: 100%;
+	form{
+
+		background-color: $primary-color;
+		display: table-cell;
+		vertical-align: top;
+		width: 48%;
+		padding: 10px;
+		.form-group{
+			
+			label{
+				vertical-align: top;
+
+			}
+			input, textarea{
+				width: 100%;
+				box-sizing:	border-box;
+			}
+			textarea{
+			}
+
+		}
+
+		#describe{
+			height: 120px;
+			resize: none;
+		}
+
+		#issues{
+			height: 150px;
+		}
+		label[for=winner], label[for=looser]{
+			width: 150px;
+			display: inline-block;
+		}
+
+		input[type=submit]{
+			float: right;
+		}
+		
+		
+	}
+}

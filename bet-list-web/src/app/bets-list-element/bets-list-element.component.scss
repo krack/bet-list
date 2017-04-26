@@ -1,0 +1,112 @@
+
+$fa-font-path: "//netdna.bootstrapcdn.com/font-awesome/4.7.0/fonts";
+@import '~font-awesome/scss/font-awesome.scss';
+@import '../themes';
+
+:host > div{ 	
+	background-color: $primary-color;
+	padding: 10px;
+	margin: 10px;
+	position: relative;
+	border-radius: 5px;
+	h1{
+		font-family: BaroqueScriptRegular;
+		color: $secondary-color; 
+		text-shadow: 1px 1px #000, -1px 1px #000, -1px -1px #000, 1px -1px #000;
+		margin:0px;
+	}
+	&.accepted{
+	}
+	.delete, .update, button.accept{
+
+		display: block;
+		position: absolute;
+		top: 2px;
+	    font-size: 0px;
+	    border: none;
+	    background: none;
+	    width: 15px;
+	    &:before{
+	    	font-size: 20px;
+			color: black; 
+	    }
+	}
+	.delete{
+		@extend .fa;
+	    @extend .fa-trash;
+		right: 12px;
+	    
+	}
+	.update{
+		@extend .fa;
+	    @extend .fa-pencil;
+		right: 32px;
+	}
+	button.accept{
+		@extend .fa;
+	    @extend .fa-check-circle;	    
+		right: 62px;		
+	}
+	span.accept{
+		transform: rotate(-20deg);
+		padding-top:40px;
+		font-size: 8em;
+		display: block;
+		position: absolute;
+		top:0;
+		left:0;
+		right:0;
+		bottom:0;
+		opacity: 0.2;
+    	text-align: center;
+	}
+
+	.image{
+		position: relative; 
+		display: inline-block;
+		img{
+			height: 100px;
+			min-width: 50px;
+		}
+		.delete{
+			position: absolute;
+			top: 5px;
+			right: 5px;
+			@extend .fa;
+			@extend .fa-trash;
+			color: red;
+			font-size: 0px;
+		    border: none;
+		    background: none;
+		    width: 30px;
+		    &:before{
+		    	font-size: 20px;
+		    }
+		}
+	}
+	
+	p{
+		width: 75%;
+		display: inline-block;
+		vertical-align: top;
+	}
+	.participants{
+		float: right;
+		.winner, .looser{
+			display: block;
+		}
+	}
+	
+
+	input[type=file]{
+		display: none;
+	}
+	input[type=file] + label{
+		@extend .fa;
+		@extend .fa-plus;
+		&:before{
+			color: green;
+			font-size: 1.5em;
+		}
+	} 
+}

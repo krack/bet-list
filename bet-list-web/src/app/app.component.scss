@@ -1,0 +1,53 @@
+
+$fa-font-path: "//netdna.bootstrapcdn.com/font-awesome/4.7.0/fonts";
+@import '~font-awesome/scss/font-awesome.scss';
+
+@font-face {
+    font-family: "BaroqueScriptRegular";
+    font-style: normal;
+    font-weight: normal;
+    src: local("☺"), url("../assets/fonts/baroquescript-webfont.woff") format("woff"), url("../assets/fonts/baroquescript-webfont.ttf") format("truetype"), url("../assets/fonts/baroquescript-webfont.svg#webfont8IIwfpex") format("svg");
+}
+
+
+@import "themes";
+
+h1{
+	color: $primary-color;
+	text-shadow: 1px 1px #000, -1px 1px #000, -1px -1px #000, 1px -1px #000;
+	display: inline-block;
+	font-family: BaroqueScriptRegular;
+	margin-top: 0px;
+}
+nav{
+	display: inline-block;
+	 a{
+	 	text-decoration: none;
+	 }
+	.add{
+    	@extend .fa;
+    	@extend .fa-plus;
+		color: green;
+		font-size: 0px;
+		&:before{
+			font-size: 30px;
+		}
+	}
+	.list{
+    	@extend .fa;
+    	@extend .fa-list;
+    	margin-left:40px;
+		font-size: 0px;
+		color: #cccccc;
+		&:before{
+			font-size: 30px;
+			color: $primary-color;
+		}
+		&.active{
+			color: #777777;
+		}
+	}
+	.login{
+
+	}
+}

@@ -1,0 +1,22 @@
+version: '2'
+services:
+  mongo:
+    scale: 1
+  load-balancer-api:
+    scale: 1
+    lb_config:
+      port_rules:
+      - source_port: ${HOST_PORT_API}
+        target_port: ${HOST_PORT_API}
+        service: api
+  api:
+    scale: 1
+  load-balancer-web:
+    scale: 1
+    lb_config:
+      port_rules:
+      - source_port: ${HOST_PORT_WEB}
+        target_port: 80
+        service: web
+  web:
+    scale: 1

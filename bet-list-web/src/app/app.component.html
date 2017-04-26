@@ -1,0 +1,8 @@
+<h1 i18n>Liste de paris</h1>
+<nav>
+	<a routerLink="/bets" routerLinkActive="active" class="list" >list</a>
+    <a routerLink="/bet" routerLinkActive="active" class="add">add</a>
+    <a *ngIf="!connected._id" routerLink="/login" class="login">login </a>
+    <a *ngIf="connected._id" class="login">{{connected.displayName}} </a>
+</nav>
+<router-outlet></router-outlet>

@@ -1,0 +1,35 @@
+sudo: required
+language: node_js
+services:
+- docker
+node_js:
+- node
+before_install:
+- curl -L https://releases.rancher.com/compose/v0.12.1/rancher-compose-linux-amd64-v0.12.1.tar.gz
+  -o rancher-compose.tar.gz
+- tar -zxvf rancher-compose.tar.gz && mv ./rancher-compose-v0.12.1/rancher-compose
+  ./rancher-compose && rm -fr ./rancher-compose-v0.12.1 && rm ./rancher-compose.tar.gz
+install:
+- cd bet-list-api
+- npm install
+- cd ..
+- cd bet-list-web
+- npm install && npm run build
+- cd ..
+before_script:
+- envsubst < "dev.env" > "dev.env2" && mv dev.env2 dev.env
+- envsubst < "prod.env" > "prod.env2" && mv prod.env2 prod.env
+script:
+- cd bet-list-api
+- docker build -t krack/bet-list-api:test .
+- cd ..
+- cd bet-list-web
+- docker build -t krack/bet-list-web:test .
+- cd ..
+after_success:
+- docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+- docker push krack/bet-list-api:test
+- docker push krack/bet-list-web:test
+- "./rancher-compose -p bet-list-dev -e dev.env rm -f"
+- "./rancher-compose -p bet-list-dev -f docker-compose.yml -r rancher-compose.yml
+  -e dev.env up -d"

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="70ef158c584bafe788e319a0bffa11b02ee9abf1" datatype="html">
+        <source>delete</source>
+        <target/>
+        <note priority="1" from="description">ad delete button</note>
+      </trans-unit>
+      <trans-unit id="64412640835b7d25247cb254d4f911366c0e6862" datatype="html">
+        <source>update</source>
+        <target/>
+        <note priority="1" from="description">ad delete button</note>
+      </trans-unit>
+      <trans-unit id="87215a19ae4b5e31ea3e042d3a61261662094458" datatype="html">
+        <source>Eps shared</source>
+        <target/>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

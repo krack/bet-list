@@ -1,0 +1,43 @@
+version: '2'
+services:
+  #database : mongo db
+  mongo:
+    image: mongo:latest
+    volumes:
+    - /opt/mongodb/db-bet-list:/data/db
+    restart: never
+  #rest api engie : node + code
+  api:
+    depends_on:
+    - mongo
+    image: node:alpine
+    volumes:
+    - ./bet-list-api/:/usr/src/app
+    links:
+    - mongo
+    environment:
+    - ALLOW_URL=http://localhost:4200
+    - SERVER_HOST=http://localhost
+    - SERVER_PORT=8080
+    - SERVER_PUBLIC_PORT=8080
+    - STORAGE_USERNAME=*
+    - STORAGE_PASSWORD=*
+    - STORAGE_TENANT_ID=*
+    - STORAGE_AUTHENTICATION_URL=*
+    - STORAGE_REGION=*
+    - FACEBOOK_API_KEY=*
+    - FACEBOOK_API_SECRET=*
+    ports: 
+    - "8080:8080"
+    restart: never
+    working_dir: /usr/src/app
+    command: sh -c 'npm install; npm start'
+  web:
+    image: node:alpine
+    ports:
+    - 4200:4200
+    restart: never
+    working_dir: /usr/src/app
+    volumes:
+    - "./bet-list-web/:/usr/src/app"
+    command: sh -c 'npm install; npm start'
