@@ -226,10 +226,10 @@ app.get('/auth/facebook/callback',
 					"facebookId": req.user.id,
 					"displayName" : req.user.displayName
 				}).then(function(user){
-					res.sendStatus(200);
+					res.redirect(302, allowUrl);
 				});
 			}else {				
-				res.sendStatus(200);
+				res.redirect(302, allowUrl);
 			}
 
 		});
