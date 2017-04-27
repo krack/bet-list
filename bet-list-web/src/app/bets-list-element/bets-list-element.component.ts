@@ -22,6 +22,7 @@ const URL =  environment.apiUrl+'bets/';
 export class BetsListElementComponent implements OnInit {	
   public uploader:FileUploader;
   @Input() element: Bet;
+  @Input()  elements: Bet[];
   public winner:User;
   public looser:User;
   private connected:User;
@@ -57,7 +58,10 @@ export class BetsListElementComponent implements OnInit {
   deleteElement(event) {
     this.service.deleteBet(this.element._id)
     .subscribe(
-      result => console.log("t")
+        result => {
+          let i = this.elements.findIndex(el => el._id === this.element._id);
+          this.elements.splice(i, 1);
+        }
       );
     event.preventDefault();
   }
