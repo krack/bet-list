@@ -1,6 +1,6 @@
 
 
-module.exports = function init(config, modelStructure, app, storageClient) {
+module.exports = function init(config, modelStructure, app, storageClient, securityFunction) {
 	var mongoose = require('mongoose');
 	var Schema = mongoose.Schema;
 	var multer = require('multer');
@@ -12,28 +12,65 @@ module.exports = function init(config, modelStructure, app, storageClient) {
 	var shemaConfiguration = extractShema(modelStructure);
 
 
+
+	var securityActivateOnObject = computeSecurityActivateOnObject(modelStructure);
+
+
 	var model = mongoose.model(config.shema, shemaConfiguration);
 
 
+	function isGoodForSecurity(objectChecked, principal, mode){
+
+				console.log("update ->" +mode);
+		if(!securityActivateOnObject[mode]){
+			return true;
+		}
+		var structure = modelStructure[i];
+		for(var i = 0; i < modelStructure.length; i++){
+			var structure = modelStructure[i];
+			console.log(" isGoodForSecurity: "+[structure.name]);
+			//check security for mode
+			if(structure.security && structure.security.indexOf(mode) !==-1){
+				console.log(" isGoodForSecurity: has security");
+				console.log(" isGoodForSecurity: "+objectChecked[structure.name]+" "+principal._id);
+
+				if(objectChecked[structure.name]==principal._id){
+				console.log(" isGoodForSecurity: true");
+					return true;
+				}
+			}
+		}
+		;
+		return false;
+	}
 	var service = {
-		"getAll": function(){
+		"getAll": function(principal){
 			return new Promise(function (fulfill, reject){
 			    model.find(function(err, list) {
 					if (err){
 						reject(500);
 					}else{
+						console.log("getAll"+principal);
+						if(principal){
+				    		list= list.filter(function(element){
+				    			return isGoodForSecurity(element, principal, "r");
+				    		});
+				    	}
+						console.log(list);
 						fulfill(list);
 					}
 				});
 			});			
 		},
-		"getById": function(id){
+		"getById": function(id, principal){
 			return new Promise(function (fulfill, reject){
 			    model.findById(id, function(err, object) {
 			    	if (!object){
 						reject(404);
 					}else if (err){
 						reject(500);
+					}else if(principal && !isGoodForSecurity(object, principal, "r")){
+						reject(403);
 					}else{
 						fulfill(object);
 					}
@@ -41,12 +78,17 @@ module.exports = function init(config, modelStructure, app, storageClient) {
 			});	
 		},
 
-		"find": function(criteria){
+		"find": function(criteria, principal){
 			return new Promise(function (fulfill, reject){
 			    model.find(criteria, function(err, list) {
 			    	if (err){
 						reject(500);
 					}else{
+						if(principal){
+				    		list= list.filter(function(element){
+				    			return isGoodForSecurity(element, principal, "r");
+				    		});
+				    	}
 						fulfill(list);
 					}
 				});
@@ -67,13 +109,16 @@ module.exports = function init(config, modelStructure, app, storageClient) {
 				});
 			});	
 		},
-		"update": function(id, object){
+		"update": function(id, object, principal){
 			return new Promise(function (fulfill, reject){
 				var keys = Object.keys(shemaConfiguration);
 				model.findById(id, function(err, objectFound) {
-					if (!objectFound)
+				console.log("update "+id);
+					if (!objectFound){
 						reject(404);
-					else {
+					}else if(principal && !isGoodForSecurity(objectFound, principal, "w")){
+						reject(403);
+					}else {
 						var keys = Object.keys(object);
 						var data = updateObject(objectFound, object);
 						data.save(function(err) {
@@ -83,57 +128,102 @@ module.exports = function init(config, modelStructure, app, storageClient) {
 				});
 			});	
 		},
-		"deleteById": function(id){
+		"deleteById": function(id, principal){
 			return new Promise(function (fulfill, reject){
-			    model.findByIdAndRemove(id, function(err, object) {
-			    	if (!object){
+				model.findById(id, function(err, objectFound) {
+					if (!objectFound){
 						reject(404);
-					}else if (err){
-						reject(500);
-					}else{
-						fulfill(object);
+					}else if(principal && !isGoodForSecurity(objectFound, principal, "w")){
+						reject(403);
+					}else {
+					    model.findByIdAndRemove(id, function(err) {
+					    	if (err){
+								reject(500);
+							}else{
+								fulfill();
+							}
+						});
 					}
 				});
 			});	
 		} 
 	};
 
-
 	//GET /
-	app.get(config.baseApi, ensureAuthenticated, function(req, res) {
-		console.log("GET "+config.baseApi);
-		service.getAll().then(function(list){
-				res.json(list);
-			}, 
-			function(error){
-				res.status(500).send(error);
-			}
-		);		
-	});
+	if(securityFunction){
+		app.get(config.baseApi, securityFunction, function(req, res) {
+			console.log("GET "+config.baseApi+"--"+req.principal);
+			service.getAll(req.principal).then(function(list){
+					res.json(list);
+				}, 
+				function(error){
+					res.sendStatus(error);
+				}
+			);		
+		});
+	}else{
+		app.get(config.baseApi, function(req, res) {
+			service.getAll().then(function(list){
+					res.json(list);
+				}, 
+				function(error){
+					res.sendStatus(error);
+				}
+			);		
+		});
+	}
 
 	//GET /:id
-	app.get(config.baseApi+':id', function(req, res) {
-		console.log("GET "+config.baseApi+req.params.id);
-		service.getById(req.params.id).then(function(object){
-				res.json(convert(object));
-			}, 
-			function(error){
-				res.status(error);
-			}
-		);	
-	});
+	if(securityFunction){
+		app.get(config.baseApi+':id', securityFunction, function(req, res) {
+			console.log("GET "+config.baseApi+req.params.id);
+			service.getById(req.params.id, req.principal).then(function(object){
+					res.json(convert(object));
+				}, 
+				function(error){
+					console.log("error" +error);
+					res.sendStatus(error).send(error);
+				}
+			);	
+		});
+	}else{
+		app.get(config.baseApi+':id', function(req, res) {
+			console.log("GET "+config.baseApi+req.params.id);
+			service.getById(req.params.id).then(function(object){
+					res.json(convert(object));
+				}, 
+				function(error){
+					console.log("error" +error);
+					res.sendStatus(error);
+				}
+			);	
+		});
+	}
 
 	//DELETE /:id
-	app.delete(config.baseApi+':id', function(req, res) {
-		console.log("DELETE "+config.baseApi+req.params.id);
-		service.deleteById(req.params.id).then(function(object){
-				res.send();
-			}, 
-			function(error){
-				res.status(error);
-			}
-		);	
-	});
+	if(securityFunction){
+		app.delete(config.baseApi+':id',securityFunction, function(req, res) {
+			console.log("DELETE "+config.baseApi+req.params.id);
+			service.deleteById(req.params.id, req.principal).then(function(){
+					res.send();
+				}, 
+				function(error){
+					res.sendStatus(error);
+				}
+			);	
+		});
+	}else{
+			app.delete(config.baseApi+':id', function(req, res) {
+			console.log("DELETE "+config.baseApi+req.params.id);
+			service.deleteById(req.params.id).then(function(){
+					res.send();
+				}, 
+				function(error){
+					res.sendStatus(error);
+				}
+			);	
+		});
+	}
 
 	//POST /
 	app.post(config.baseApi, function(req, res) {
@@ -142,23 +232,38 @@ module.exports = function init(config, modelStructure, app, storageClient) {
 				res.json(convert(object));
 			}, 
 			function(error){
-				res.status(error);
+				res.sendStatus(error);
 			}
 		);	
 	});
 
 
 	//PUT /:id
-	app.put(config.baseApi+':id', function(req, res) {
+	if(securityFunction){
+		app.put(config.baseApi+':id', securityFunction, function(req, res) {
+			console.log("PUT "+config.baseApi+req.params.id);
+			service.update(req.params.id, req.body, req.principal).then(function(object){
+					res.json(convert(object));
+				}, 
+				function(error){
+					console.log("error" +error);
+					res.sendStatus(error);
+				}
+			);	
+		});
+	}else{
+		app.put(config.baseApi+':id', function(req, res) {
 		console.log("PUT "+config.baseApi+req.params.id);
 		service.update(req.params.id, req.body).then(function(object){
 				res.json(convert(object));
 			}, 
 			function(error){
-				res.status(error);
+				console.log("error" +error);
+				res.sendStatus(error);
 			}
 		);	
-	});
+	});  
+	}
 
 	for(var i = 0; i < filesApi.length; i++){
 		registerSubFieldFile(filesApi[i]);
@@ -184,6 +289,24 @@ module.exports = function init(config, modelStructure, app, storageClient) {
 			}
 		}
 		return shemaConfiguration;
+	}
+
+	function computeSecurityActivateOnObject(modelStructure){
+		var result={
+			"r": false,
+			"w": false
+		};
+		for(var i = 0; i < modelStructure.length; i++){
+			if(modelStructure[i].security){
+				if(modelStructure[i].security.indexOf("r") !==-1){
+					result["r"] = true;
+				}
+				if(modelStructure[i].security.indexOf("w")!==-1){
+					result["w"] = true;
+				}
+			}
+		}
+		return result;
 	}
 
 	function updateObject(objet1, object2) {
@@ -353,12 +476,6 @@ module.exports = function init(config, modelStructure, app, storageClient) {
 
 	}).single('file');
 
-	function ensureAuthenticated(req, res, next) {
-  		if (req.isAuthenticated()) {
-  			return next();
-  		}
-  		res.sendStatus(401);
-	}
 
 	return service;
 

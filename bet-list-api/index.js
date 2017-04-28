@@ -150,46 +150,6 @@ app.use(function (req, res, next) {
     next();
 });
 
-var serviceBets = null;
-{//config bets
-	var config = {
-		"baseApi" : "/api/bets/",
-		"serverHost": serverHost,
-		"port": portPublic,
-		"shema": 'bets'
-
-	}
-	var model = [
-		{
-			"name": "title",
-			"type": "String"
-		},
-		{
-
-			"name": "issues",
-			"type": "String"
-		},
-		{
-			"name": "files",
-			"type" : "Files",
-			"container" : storageContainer
-		},
-		{
-			"name": "winneur",
-			"type": "String"
-		},
-		{
-			"name": "looser",
-			"type": "String"
-		},
-		{
-			"name": "accepted",
-			"type": "Boolean"
-		}
-	]
-
-	serviceBets = configureAPI(config, model, app, storageClient);
-}
 
 var serviceUser = null;
 {//config bets
@@ -215,6 +175,25 @@ var serviceUser = null;
 }
 
 app.get('/auth/facebook', passport.authenticate('facebook', { authType: 'rerequest', scope: ['user_friends'] }));
+
+function securityFunction(req, res, next) {
+	if (req.isAuthenticated()) {
+		serviceUser.find({"facebookId": req.user.id}).then(function(users){
+			console.log("users "+users)
+			if(users.length > 0){
+				console.log("principal define : "+users[0]._id);
+				req.principal= users[0];
+				return next();
+			}else{
+				res.sendStatus(401);
+			}
+		});
+		
+	}else{
+		res.sendStatus(401);
+	}
+}
+
 
 
 app.get('/auth/facebook/callback',
@@ -249,6 +228,50 @@ app.get('/api/me', function(req, res) {
 		res.sendStatus(401);
 	}
 });
+
+
+var serviceBets = null;
+{//config bets
+	var config = {
+		"baseApi" : "/api/bets/",
+		"serverHost": serverHost,
+		"port": portPublic,
+		"shema": 'bets'
+
+	}
+	var model = [
+		{
+			"name": "title",
+			"type": "String"
+		},
+		{
+
+			"name": "issues",
+			"type": "String"
+		},
+		{
+			"name": "files",
+			"type" : "Files",
+			"container" : storageContainer
+		},
+		{
+			"name": "winneur",
+			"type": "String",
+			"security": "rw"
+		},
+		{
+			"name": "looser",
+			"type": "String",
+			"security": "r"
+		},
+		{
+			"name": "accepted",
+			"type": "Boolean"
+		}
+	]
+
+	serviceBets = configureAPI(config, model, app, storageClient, securityFunction);
+}
 
 
 
