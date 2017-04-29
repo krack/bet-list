@@ -4,10 +4,6 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var http = require('http');
 var request = require('request');
-var passport = require('passport');
-var FacebookStrategy = require('passport-facebook').Strategy;
-var session = require('express-session');
-var cookieParser      =     require('cookie-parser');
 
 
 
@@ -18,6 +14,7 @@ var methodOverride = require('method-override');
 var pkgcloud = require('pkgcloud');
 
 var configureAPI = require('./rest-api-database');
+var auth = require('./authentification.module');
 
 
 
@@ -54,33 +51,6 @@ var facebook_api_secret= process.env.FACEBOOK_API_SECRET;
 var callback_url= serverHost+":"+portPublic+"/auth/facebook/callback";
 //end config
 /***********/
-
-
-// Passport session setup.
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
-});
-
-
-// Use the FacebookStrategy within Passport.
-
-passport.use(new FacebookStrategy({
-    clientID: facebook_api_key,
-    clientSecret:facebook_api_secret ,
-    callbackURL: callback_url
-  },
-  function(accessToken, refreshToken, profile, done) {
-    process.nextTick(function () {
-      //Check whether the User exists or not using profile.id
-      console.log(profile);
-      return done(null, profile);
-    });
-  }
-));
 
 
 
@@ -126,10 +96,6 @@ mongoose.connect(database.url, function(err) {
 app.use(morgan('dev'));
 app.use(bodyParser.json()); // parse application/json
 app.use(methodOverride('X-HTTP-Method-Override'));
-app.use(session({ secret: 'keyboard cat', key: 'sid'}));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(cookieParser());
 // Add headers
 app.use(function (req, res, next) {
 
@@ -150,84 +116,16 @@ app.use(function (req, res, next) {
     next();
 });
 
-
-var serviceUser = null;
-{//config bets
-	var config = {
-		"baseApi" : "/api/users/",
-		"serverHost": serverHost,
-		"port": portPublic,
-		"shema": 'users'
-
-	}
-	var model = [
-		{
-			"name": "facebookId",
-			"type": "String"
-		},
-		{
-			"name": "displayName",
-			"type": "String"
-		}
-	]
-
-	serviceUser = configureAPI(config, model, app, storageClient);
-}
-
-app.get('/auth/facebook', passport.authenticate('facebook', { authType: 'rerequest', scope: ['user_friends'] }));
-
-function securityFunction(req, res, next) {
-	if (req.isAuthenticated()) {
-		serviceUser.find({"facebookId": req.user.id}).then(function(users){
-			console.log("users "+users)
-			if(users.length > 0){
-				console.log("principal define : "+users[0]._id);
-				req.principal= users[0];
-				return next();
-			}else{
-				res.sendStatus(401);
-			}
-		});
-		
-	}else{
-		res.sendStatus(401);
+var authentificationConfiguration ={
+	"redirectUrl": allowUrl,
+	"facebook":{
+		"api_key" :facebook_api_key,
+		"api_secret": facebook_api_secret,
+		"callback_url":callback_url
 	}
 }
 
-
-
-app.get('/auth/facebook/callback',
-	passport.authenticate('facebook'),
-	function(req, res) {
-		serviceUser.find({"facebookId": req.user.id}).then(function(users){
-			if(!users.length){
-				serviceUser.create({
-					"facebookId": req.user.id,
-					"displayName" : req.user.displayName
-				}).then(function(user){
-					res.redirect(302, allowUrl);
-				});
-			}else {				
-				res.redirect(302, allowUrl);
-			}
-
-		});
-		
-	});
-app.get('/api/me', function(req, res) {
-	console.log("GET /api/me");
-	if (req.isAuthenticated()) {
-		serviceUser.find({"facebookId": req.user.id}).then(function(users){
-			if(users.length){
-				res.json(users[0]);
-			}else{
-				res.sendStatus(401);
-			}
-		});
-	}else{
-		res.sendStatus(401);
-	}
-});
+var authentification = auth(authentificationConfiguration, app); 
 
 
 var serviceBets = null;
@@ -270,7 +168,7 @@ var serviceBets = null;
 		}
 	]
 
-	serviceBets = configureAPI(config, model, app, storageClient, securityFunction);
+	serviceBets = configureAPI(config, model, app, storageClient, authentification.securityFunction);
 }
 
 

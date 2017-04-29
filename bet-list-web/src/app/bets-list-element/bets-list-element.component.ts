@@ -1,15 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {DomSanitizer} from '@angular/platform-browser';
-
-import { FileUploader, FileSelectDirective} from 'ng2-file-upload'
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { Bet } from '../model/bet';
-import { File } from '../model/file';
+import { File } from '../communs/file';
 import { User } from '../model/user';
 import { BetsService } from '../bets.service';
 import { UserService } from '../users.service';
 
 import {environment} from '../../environments/environment';
+
+import { ElementComponent } from '../communs/elements-component';
 
 const URL =  environment.apiUrl+'bets/';
 
@@ -17,30 +17,31 @@ const URL =  environment.apiUrl+'bets/';
   selector: 'bets-list-element',
   templateUrl: './bets-list-element.component.html',
   styleUrls: ['./bets-list-element.component.scss'],
-  providers:  [BetsService, UserService, FileSelectDirective]
+  providers:  [BetsService, UserService]
 })
-export class BetsListElementComponent implements OnInit {	
-  public uploader:FileUploader;
+export class BetsListElementComponent extends ElementComponent<Bet> implements OnInit {
+  private usersService:UserService;	
+
   @Input() element: Bet;
   @Input()  elements: Bet[];
+
+  private endpoint:string;
   public winner:User;
   public looser:User;
   private connected:User;
 
-  constructor(private service: BetsService, private usersService: UserService, private domSanitizer:DomSanitizer) { 
+  constructor(service: BetsService, usersService: UserService, router:Router, route: ActivatedRoute) { 
+    super(service, router, route);
+    this.usersService = usersService;
     this.winner = new User(); 
     this.looser = new User();
     this.connected = new User();
   }
 
   ngOnInit() {
-  		this.uploader = new FileUploader({
-		    url: URL+this.element._id+"/files/",
-        autoUpload: true
-	    });
-	    this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
-		    this.element.files.push(JSON.parse(response));
-	    };
+      this.listOfElement =this.elements;
+      this.endpoint = URL+this.element._id+"/files/";
+
       if(this.element.winneur){
         this.usersService.getById(this.element.winneur).subscribe((user: User) => this.winner = user);
       }
@@ -50,33 +51,11 @@ export class BetsListElementComponent implements OnInit {
       this.usersService.getConnectedUser().subscribe((user: User)=> this.connected = user);
 
   }
-
-  photoURL(url) {
-    return this.domSanitizer.bypassSecurityTrustUrl(url);
-  }
-
-  deleteElement(event) {
-    this.service.deleteBet(this.element._id)
-    .subscribe(
-        result => {
-          let i = this.elements.findIndex(el => el._id === this.element._id);
-          this.elements.splice(i, 1);
-        }
-      );
-    event.preventDefault();
-  }
-
-   deleteImage(event, file:File) {     
-
-     this.service.deleteImage(this.element._id, file._id)
-                       .subscribe(
-                         result => this.element.files = this.element.files.filter(el => el._id != file._id));
-      event.preventDefault();
-  }
+  
 
   accepteBet (){
     this.element.accepted = true;
-    this.service.updateBet(this.element).subscribe(
+    this.crudService.updateElement(this.element).subscribe(
                          result => this.element = result);
   }
 

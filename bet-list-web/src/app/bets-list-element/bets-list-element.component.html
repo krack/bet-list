@@ -10,18 +10,6 @@
 		<span class="winner">gagnant : {{winner.displayName}}</span>
 		<span class="looser">perdant : {{looser.displayName}}</span>
 	</div>
-	<div class="images">
-		<div *ngIf="!element.accepted">
-			<input id="file_{{element._id}}" name="file_{{element._id}}" type="file" class="form-control" name="single" ng2FileSelect [uploader]="uploader" />
-			<label for="file_{{element._id}}"> </label>
-		</div>
-		<div *ngIf="element.files.length ===0 ">
-			Aucun fichier.
-		</div>
-		<div class="image" *ngFor="let file of element.files" >
-			<img [src]="photoURL(file.href)" />
-			<button *ngIf="!element.accepted" class="delete" (click)="deleteImage($event, file)">delete</button>
-		</div>
-	</div>
 	
+	<files-uploader [list]="element.files" [readonly]="element.accepted" [endpoint]="endpoint"></files-uploader>
 </div>

@@ -11,7 +11,11 @@ import { AppComponent } from './app.component';
 import { BetsListComponent } from './bets-list/bets-list.component';
 import { BetsFormComponent } from './bets-form-component/bets-form-component.component';
 import { BetsListElementComponent } from './bets-list-element/bets-list-element.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './communs/login/login.component';
+import { FilesUploaderComponent } from './communs/files-uploader/files-uploader.component';
+
+
+import {environment} from '../environments/environment';
 
 
 const appRoutes: Routes = [
@@ -23,7 +27,8 @@ const appRoutes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    data: { baseUrl: environment.apiUrl.replace("/api/", "/") }
   },
   { path: '',
     redirectTo: '/bets',
@@ -38,7 +43,8 @@ const appRoutes: Routes = [
     BetsFormComponent,
     FileSelectDirective,
     BetsListElementComponent,
-    LoginComponent
+    LoginComponent,
+    FilesUploaderComponent
   ],
   imports: [
     BrowserModule,

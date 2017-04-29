@@ -20,22 +20,15 @@ module.exports = function init(config, modelStructure, app, storageClient, secur
 
 
 	function isGoodForSecurity(objectChecked, principal, mode){
-
-				console.log("update ->" +mode);
 		if(!securityActivateOnObject[mode]){
 			return true;
 		}
 		var structure = modelStructure[i];
 		for(var i = 0; i < modelStructure.length; i++){
 			var structure = modelStructure[i];
-			console.log(" isGoodForSecurity: "+[structure.name]);
 			//check security for mode
 			if(structure.security && structure.security.indexOf(mode) !==-1){
-				console.log(" isGoodForSecurity: has security");
-				console.log(" isGoodForSecurity: "+objectChecked[structure.name]+" "+principal._id);
-
 				if(objectChecked[structure.name]==principal._id){
-				console.log(" isGoodForSecurity: true");
 					return true;
 				}
 			}
