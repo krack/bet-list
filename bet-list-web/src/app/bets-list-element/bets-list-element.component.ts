@@ -2,14 +2,12 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { Bet } from '../model/bet';
-import { File } from '../communs/file';
+import { File, ElementComponent } from 'angularjs-nodejs-framework/angularjs-nodejs-framework';
 import { User } from '../model/user';
 import { BetsService } from '../bets.service';
 import { UserService } from '../users.service';
 
 import {environment} from '../../environments/environment';
-
-import { ElementComponent } from '../communs/elements-component';
 
 const URL =  environment.apiUrl+'bets/';
 

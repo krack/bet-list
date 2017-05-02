@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 
-import { ElementComponent } from '../communs/elements-component';
+import { ElementComponent } from 'angularjs-nodejs-framework/angularjs-nodejs-framework';
 
 import { Bet } from '../model/bet';
-import { File } from '../communs/file';
 import { User } from '../model/user';
 import { BetsService } from '../bets.service';
 import { UserService } from '../users.service';

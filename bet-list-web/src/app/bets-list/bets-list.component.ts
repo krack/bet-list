@@ -3,7 +3,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 
-import { ListElements } from '../communs/list-elements';
+import { ListElements } from 'angularjs-nodejs-framework/angularjs-nodejs-framework';
 
 import { Bet } from '../model/bet';
 import { BetsService } from '../bets.service';

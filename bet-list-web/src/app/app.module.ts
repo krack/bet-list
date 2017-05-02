@@ -11,8 +11,8 @@ import { AppComponent } from './app.component';
 import { BetsListComponent } from './bets-list/bets-list.component';
 import { BetsFormComponent } from './bets-form-component/bets-form-component.component';
 import { BetsListElementComponent } from './bets-list-element/bets-list-element.component';
-import { LoginComponent } from './communs/login/login.component';
-import { FilesUploaderComponent } from './communs/files-uploader/files-uploader.component';
+import { LoginComponent } from 'angularjs-nodejs-framework/angularjs-nodejs-framework';
+import { FilesUploaderComponent } from 'angularjs-nodejs-framework/angularjs-nodejs-framework';
 
 
 import {environment} from '../environments/environment';

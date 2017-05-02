@@ -13,8 +13,8 @@ var methodOverride = require('method-override');
 
 var pkgcloud = require('pkgcloud');
 
-var configureAPI = require('./rest-api-database');
-var auth = require('./authentification.module');
+var configureAPI = require('angularjs-nodejs-framework').configureAPI;
+var auth = require('angularjs-nodejs-framework').auth;
 
 
 

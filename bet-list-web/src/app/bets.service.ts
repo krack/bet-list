@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map';
 import {environment} from '../environments/environment';
 
 import { Bet } from './model/bet';
-import { CrudService } from './communs/crud-service.service';
+import { CrudService } from 'angularjs-nodejs-framework/angularjs-nodejs-framework';
 
 @Injectable()
 export class BetsService extends CrudService<Bet>{

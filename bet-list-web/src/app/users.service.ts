@@ -61,12 +61,4 @@ export class UserService {
 
     return this.connectedUser.asObservable();
   }
-
-   getLoginPage(): Observable<String>{
-  	
-	 return this.http.get(environment.apiUrl+'auth/facebook').map(this.extractData2);
-	}
-	private extractData2(res: Response) {
-    return res.toString();
-  }
 }

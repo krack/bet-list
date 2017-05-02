@@ -12,18 +12,19 @@
     "nodemon": "~1.11.0"
   },
   "dependencies": {
+    "angularjs-nodejs-framework": "git://github.com/krack/angularjs-nodejs-framework.git",
     "body-parser": "~1.15.2",
+    "cookie-parser": "1.3.2",
     "express": "~4.14.0",
+    "express-session": "1.7.6",
     "method-override": "~2.3.7",
     "mongoose": "~4.7.5",
     "morgan": "~1.7.0",
     "multer": "^1.3.0",
-    "pkgcloud": "^1.4.0",
-    "request": "^2.79.0",
-    "uuid": "^3.0.1",
     "passport": "latest",
     "passport-facebook": "latest",
-    "express-session": "1.7.6",
-    "cookie-parser": "1.3.2"
+    "pkgcloud": "^1.4.0",
+    "request": "^2.79.0",
+    "uuid": "^3.0.1"
   }
 }

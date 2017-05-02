@@ -1,4 +1,4 @@
-import { File } from '../communs/file';
+import { File } from 'angularjs-nodejs-framework/angularjs-nodejs-framework';
 import { IdentifiedElement } from '../communs/indentified-element';
 
 export class Bet implements IdentifiedElement{
