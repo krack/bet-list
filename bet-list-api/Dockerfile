@@ -1,5 +1,8 @@
 FROM node:alpine
 
+RUN apk update && apk upgrade && \
+    apk add --no-cache bash git openssh
+    
 ADD package.json /tmp/package.json
 ADD README.md /tmp/README.md
 RUN cd /tmp && npm install
