@@ -27,9 +27,8 @@ script:
 - docker build -t krack/bet-list-web:test .
 - cd ..
 after_success:
+- "./rancher-compose -p bet-list-dev -e dev.env rm -f"
 - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
 - docker push krack/bet-list-api:test
 - docker push krack/bet-list-web:test
-- "./rancher-compose -p bet-list-dev -e dev.env rm -f"
-- "./rancher-compose -p bet-list-dev -f docker-compose.yml -r rancher-compose.yml
-  -e dev.env up -d"
+- "./rancher-compose -p bet-list-dev -f docker-compose.yml -r rancher-compose.yml -e dev.env up -d"
