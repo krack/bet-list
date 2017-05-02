@@ -1,5 +1,5 @@
 import { File } from 'angularjs-nodejs-framework/angularjs-nodejs-framework';
-import { IdentifiedElement } from '../communs/indentified-element';
+import { IdentifiedElement } from 'angularjs-nodejs-framework/angularjs-nodejs-framework';
 
 export class Bet implements IdentifiedElement{
 
