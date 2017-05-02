@@ -150,7 +150,8 @@ var serviceBets = null;
 		{
 			"name": "files",
 			"type" : "Files",
-			"container" : storageContainer
+			"container" : storageContainer,
+			"deleteOnServer": false
 		},
 		{
 			"name": "winneur",
