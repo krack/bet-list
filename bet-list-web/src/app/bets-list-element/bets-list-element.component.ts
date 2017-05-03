@@ -29,7 +29,7 @@ export class BetsListElementComponent extends ElementComponent<Bet> implements O
   private connected:User;
 
   constructor(service: BetsService, usersService: UserService, router:Router, route: ActivatedRoute) { 
-    super(service, router, route);
+    super("/bets/", service, router, route);
     this.usersService = usersService;
     this.winner = new User(); 
     this.looser = new User();

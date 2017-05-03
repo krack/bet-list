@@ -28,7 +28,7 @@ export class BetsFormComponent extends ElementComponent<Bet> implements OnInit {
 
 
 	constructor( router: Router, route: ActivatedRoute, betsService: BetsService, usersService: UserService) {
-		super(betsService, router, route);
+		super("/bet/", betsService, router, route);
 		this.usersService= usersService;
 		this.element = new Bet(undefined);
 	}
