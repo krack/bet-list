@@ -6,6 +6,8 @@ services:
     volumes:
     - /opt/mongodb/dbBets:/data/db
     restart: always
+    labels:
+      io.rancher.scheduler.affinity:host_label: bdd=1
   #rest api engie : node + code
   load-balancer-api:
     ports:
