@@ -2,10 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { Bet } from '../model/bet';
-import { File, ElementComponent } from 'angularjs-nodejs-framework/angularjs-nodejs-framework';
-import { User } from '../model/user';
+import { File, ElementComponent, User, UsersService } from 'angularjs-nodejs-framework/angularjs-nodejs-framework';
 import { BetsService } from '../bets.service';
-import { UserService } from '../users.service';
 
 import {environment} from '../../environments/environment';
 
@@ -15,10 +13,10 @@ const URL =  environment.apiUrl+'bets/';
   selector: 'bets-list-element',
   templateUrl: './bets-list-element.component.html',
   styleUrls: ['./bets-list-element.component.scss'],
-  providers:  [BetsService, UserService]
+  providers:  [BetsService, UsersService]
 })
 export class BetsListElementComponent extends ElementComponent<Bet> implements OnInit {
-  private usersService:UserService;	
+  private usersService:UsersService;	
 
   @Input() element: Bet;
   @Input()  elements: Bet[];
@@ -28,12 +26,12 @@ export class BetsListElementComponent extends ElementComponent<Bet> implements O
   public looser:User;
   private connected:User;
 
-  constructor(service: BetsService, usersService: UserService, router:Router, route: ActivatedRoute) { 
+  constructor(service: BetsService, usersService: UsersService, router:Router, route: ActivatedRoute) { 
     super("/bets/", service, router, route);
     this.usersService = usersService;
-    this.winner = new User(); 
-    this.looser = new User();
-    this.connected = new User();
+    this.winner = new User(undefined); 
+    this.looser = new User(undefined);
+    this.connected = new User(undefined);
   }
 
   ngOnInit() {

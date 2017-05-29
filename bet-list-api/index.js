@@ -134,7 +134,13 @@ var serviceBets = null;
 		"baseApi" : "/api/bets/",
 		"serverHost": serverHost,
 		"port": portPublic,
-		"shema": 'bets'
+		"shema": 'bets',
+		"api" : {
+			"post": "m",
+			"delete": "m",
+			"put": "m",
+			"get": "m",
+		}
 
 	}
 	var model = [
@@ -169,7 +175,7 @@ var serviceBets = null;
 		}
 	]
 
-	serviceBets = configureAPI(config, model, app, storageClient, authentification.securityFunction);
+	serviceBets = configureAPI(config, model, app, authentification.checkConnectedFunction, storageClient);
 }
 
 

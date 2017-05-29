@@ -12,7 +12,8 @@ import { BetsListComponent } from './bets-list/bets-list.component';
 import { BetsFormComponent } from './bets-form-component/bets-form-component.component';
 import { BetsListElementComponent } from './bets-list-element/bets-list-element.component';
 import { LoginComponent } from 'angularjs-nodejs-framework/angularjs-nodejs-framework';
-import { FilesUploaderComponent } from 'angularjs-nodejs-framework/angularjs-nodejs-framework';
+import { FilesUploaderComponent, AppSettings } from 'angularjs-nodejs-framework/angularjs-nodejs-framework';
+
 
 
 import {environment} from '../environments/environment';
@@ -55,4 +56,8 @@ const appRoutes: Routes = [
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  constructor() {
+    AppSettings.API_ENDPOINT = environment.apiUrl;
+  }
+}

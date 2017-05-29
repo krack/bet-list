@@ -1,14 +1,14 @@
 <div [ngClass]="{'accepted': element.accepted}">
-	<button *ngIf="!element.accepted && connected._id ===  winner._id" class="delete" (click)="deleteElement($event)" i18n="delete button" >delete</button>
-	<a *ngIf="!element.accepted && connected._id ===  winner._id" class="update" [routerLink]="['/bet/',element._id]"  i18n="update button">update</a>
-	<button *ngIf="!element.accepted && connected._id ===  winner._id" class="accept" (click)="accepteBet()" i18n="delete button" >accept</button>
+	<button *ngIf="!element.accepted && connected && connected?._id ===  winner?._id" class="delete" (click)="deleteElement($event)" i18n="delete button" >delete</button>
+	<a *ngIf="!element.accepted && connected && connected?._id ===  winner?._id" class="update" [routerLink]="['/bet/',element._id]"  i18n="update button">update</a>
+	<button *ngIf="!element.accepted && connected  && connected?._id ===  winner?._id" class="accept" (click)="accepteBet()" i18n="delete button" >accept</button>
 	<span *ngIf="element.accepted" class="accept">accepté</span>
 
 	<h1>{{element.title}}</h1>
 	<p>{{element.issues}}</p>
 	<div class="participants">
-		<span class="winner">gagnant : {{winner.displayName}}</span>
-		<span class="looser">perdant : {{looser.displayName}}</span>
+		<span class="winner">gagnant : {{winner?.displayName}}</span>
+		<span class="looser">perdant : {{looser?.displayName}}</span>
 	</div>
 	
 	<files-uploader [list]="element.files" [readonly]="element.accepted" [endpoint]="endpoint"></files-uploader>
