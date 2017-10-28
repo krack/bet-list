@@ -15,64 +15,22 @@ $fa-font-path: "//netdna.bootstrapcdn.com/font-awesome/4.7.0/fonts";
 		text-shadow: 1px 1px #000, -1px 1px #000, -1px -1px #000, 1px -1px #000;
 		margin:0px;
 	}
-/*	&.accepted{
-	}
-	.delete, .update, button.accept{
 
-		display: block;
-		position: absolute;
-		top: 2px;
-	    font-size: 0px;
-	    border: none;
-	    background: none;
-	    width: 15px;
-	    &:before{
-	    	font-size: 20px;
-			color: black; 
-	    }
-	}
-	.delete{
-		@extend .fa;
-	    @extend .fa-trash;
-		right: 12px;
-	    
-	}
-	.update{
-		@extend .fa;
-	    @extend .fa-pencil;
-		right: 32px;
-	}
-	button.accept{
-		@extend .fa;
-	    @extend .fa-check-circle;	    
-		right: 62px;		
-	}
-	span.accept{
-		transform: rotate(-20deg);
-		padding-top:40px;
-		font-size: 8em;
-		display: block;
-		position: absolute;
-		top:0;
-		left:0;
-		right:0;
-		bottom:0;
-		opacity: 0.2;
-    	text-align: center;
-	}
-
-	*/
 	.actions{
 		text-align: right;
 		button{
-			border-color: $secondary-color;
-			color: $secondary-color;
-			background-color: $primary-color;
+			border-color: #000;
+			color: $primary-color;
+			background-color: $secondary-color;
 			padding: 10px;
 			border-radius: 20px;
 			text-shadow: 1px 1px #000, -1px 1px #000, -1px -1px #000, 1px -1px #000;
+			font-family: BaroqueScriptRegular;
+			&::before{
+				margin-right: 10px;
+			}
 		}
-		button.accept{
+	/*	button.accept{
 			@extend .fa;
 			@extend .fa-check-circle;
 			
@@ -90,7 +48,7 @@ $fa-font-path: "//netdna.bootstrapcdn.com/font-awesome/4.7.0/fonts";
 			@extend .fa;
 			@extend .fa-frown-o;
 			
-		}
+		}*/
 	}
 	p{
 		width: 75%;
@@ -103,7 +61,7 @@ $fa-font-path: "//netdna.bootstrapcdn.com/font-awesome/4.7.0/fonts";
 			display: block;
 		}
 	}
-	.proposed.applicant, .acquitted{
+	.bet-card.proposed.applicant, .bet-card.acquitted{
 		opacity: 0.5;
 	}
 

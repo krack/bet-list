@@ -66,13 +66,6 @@ export class BetsListElementComponent extends ElementComponent<Bet> implements O
 
   }
   
-
- /* accepteBet (){
-    this.element.accepted = true;
-    this.crudService.updateElement(this.element).subscribe(
-                         result => this.element = result);
-  }*/
-
   acceptBet (){
     this.element.status = 'accepted';
     this.crudService.updateElement(this.element).subscribe(result => this.element = result);

@@ -1,13 +1,13 @@
 <div *ngIf="bets?.length===0">aucun pari</div>
 
-<h2>Proposed</h2>
+<h2>En proposition</h2>
 <bets-list-element [element]="bet" *ngFor="let bet of elements| filterStatus:'proposed'" [elements]="elements"></bets-list-element>
 
 <h2>En cours</h2>
 <bets-list-element [element]="bet" *ngFor="let bet of elements| filterStatus:'accepted'" [elements]="elements"></bets-list-element>
 
-<h2>played</h2>
+<h2>Joué</h2>
 <bets-list-element [element]="bet" *ngFor="let bet of elements| filterStatus:'played'" [elements]="elements"></bets-list-element>
 
-<h2>acquitted</h2>
+<h2>Terminé</h2>
 <bets-list-element [element]="bet" *ngFor="let bet of elements| filterStatus:'acquitted'" [elements]="elements"></bets-list-element>

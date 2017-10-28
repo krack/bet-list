@@ -1,7 +1,7 @@
 <div [ngSwitch]="element.status">
 
 	<!-- card for proposed status -->
-	<div *ngSwitchCase="'proposed'" [ngClass]="{'acceptor': connected?._id ===  acceptor?._id, 'applicant': connected?._id !==  acceptor?._id}" class="proposed" >
+	<div *ngSwitchCase="'proposed'" [ngClass]="{'acceptor': connected?._id ===  acceptor?._id, 'applicant': connected?._id !==  acceptor?._id}" class="bet-card proposed" >
 		<h1>{{element.title}}</h1>
 		<p>{{element.victoriesConditions}}</p>
 		<div class="participants">
@@ -27,7 +27,7 @@
 	</div>
 
 	<!-- card for accepted status -->
-	<div *ngSwitchCase="'accepted'" [ngClass]="{'acceptor': connected?._id ===  acceptor?._id, 'applicant': connected?._id !==  acceptor?._id}" class="accepted">
+	<div *ngSwitchCase="'accepted'" [ngClass]="{'acceptor': connected?._id ===  acceptor?._id, 'applicant': connected?._id !==  acceptor?._id}" class="bet-card accepted">
 		<h1>{{element.title}}</h1>
 		<p>{{element.victoriesConditions}}</p>
 		<div class="participants">
@@ -54,7 +54,7 @@
 
 
 	<!-- card for played status -->
-	<div *ngSwitchCase="'played'"  [ngClass]="{'acceptor': connected?._id ===  acceptor?._id, 'applicant': connected?._id !==  acceptor?._id, 'winner': connected?._id ===  winner?._id, 'looser': connected?._id ===  looser?._id}" class="played">			
+	<div *ngSwitchCase="'played'"  [ngClass]="{'acceptor': connected?._id ===  acceptor?._id, 'applicant': connected?._id !==  acceptor?._id, 'winner': connected?._id ===  winner?._id, 'looser': connected?._id ===  looser?._id}" class="bet-card played">			
 		<h1>{{element.title}}</h1>
 		<div class="result">
 			<span *ngIf="connected?._id ===  winner?._id"> 
@@ -73,7 +73,7 @@
 
 		<files-uploader [list]="element.files" [endpoint]="endpoint"></files-uploader>
 		<section class="actions">
-			<button *ngIf="connected && connected?._id ===  winner?._id" class="acquitted" (click)="acquitteBet()" >acquitted</button>
+			<button *ngIf="connected && connected?._id ===  winner?._id" class="acquitted" (click)="acquitteBet()" >Pari acquité</button>
 		</section>
 
 		
@@ -82,7 +82,7 @@
 
 
 	<!-- card for acquitted status -->
-	<div *ngSwitchCase="'acquitted'" class="acquitted">
+	<div *ngSwitchCase="'acquitted'" class="acquitted bet-card">
 		<h1>{{element.title}}</h1>
 		<div class="result">
 			<span *ngIf="connected?._id ===  winner?._id"> 

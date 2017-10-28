@@ -157,11 +157,6 @@ var serviceBets = null;
 			"type": "String"
 		},
 		{
-
-			"name": "issues",
-			"type": "String"
-		},
-		{
 			"name": "files",
 			"type" : "Files",
 			"container" : storageContainer,
@@ -171,11 +166,6 @@ var serviceBets = null;
 			"name": "winneur",
 			"type": "String",
 			"security": "rw"
-		},
-		{
-			"name": "looser",
-			"type": "String",
-			"security": "r"
 		},
 		{
 			"name": "applicant",
