@@ -11,12 +11,15 @@ import { AppComponent } from './app.component';
 import { BetsListComponent } from './bets-list/bets-list.component';
 import { BetsFormComponent } from './bets-form-component/bets-form-component.component';
 import { BetsListElementComponent } from './bets-list-element/bets-list-element.component';
+import { BetResultFormComponent } from './bet-result-form-component/bet-result-form-component.component';
+import { BetProposalFormComponent } from './bet-proposal-form-component/bet-proposal-form-component.component';
 import { LoginComponent } from 'angularjs-nodejs-framework/angularjs-nodejs-framework';
 import { FilesUploaderComponent, AppSettings } from 'angularjs-nodejs-framework/angularjs-nodejs-framework';
 
 
 
 import {environment} from '../environments/environment';
+import { FilterPipe } from './filter.pipe';
 
 
 const appRoutes: Routes = [
@@ -45,7 +48,10 @@ const appRoutes: Routes = [
     FileSelectDirective,
     BetsListElementComponent,
     LoginComponent,
-    FilesUploaderComponent
+    FilesUploaderComponent,
+    BetResultFormComponent,
+    BetProposalFormComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,

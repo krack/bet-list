@@ -15,7 +15,7 @@ $fa-font-path: "//netdna.bootstrapcdn.com/font-awesome/4.7.0/fonts";
 		text-shadow: 1px 1px #000, -1px 1px #000, -1px -1px #000, 1px -1px #000;
 		margin:0px;
 	}
-	&.accepted{
+/*	&.accepted{
 	}
 	.delete, .update, button.accept{
 
@@ -61,8 +61,37 @@ $fa-font-path: "//netdna.bootstrapcdn.com/font-awesome/4.7.0/fonts";
     	text-align: center;
 	}
 
-	
-	
+	*/
+	.actions{
+		text-align: right;
+		button{
+			border-color: $secondary-color;
+			color: $secondary-color;
+			background-color: $primary-color;
+			padding: 10px;
+			border-radius: 20px;
+			text-shadow: 1px 1px #000, -1px 1px #000, -1px -1px #000, 1px -1px #000;
+		}
+		button.accept{
+			@extend .fa;
+			@extend .fa-check-circle;
+			
+		}
+		button.reject{
+			@extend .fa;
+			@extend .fa-close;
+		}
+		button.win{
+			@extend .fa;
+			@extend .fa-smile-o;
+			
+		}
+		button.loose{
+			@extend .fa;
+			@extend .fa-frown-o;
+			
+		}
+	}
 	p{
 		width: 75%;
 		display: inline-block;
@@ -74,7 +103,31 @@ $fa-font-path: "//netdna.bootstrapcdn.com/font-awesome/4.7.0/fonts";
 			display: block;
 		}
 	}
-	
+	.proposed.applicant, .acquitted{
+		opacity: 0.5;
+	}
+
+	.proposed.applicant, .accepted.applicant{
+		.participants > .applicant{
+			display: none;
+		}
+	}
+	.proposed.acceptor, .accepted.acceptor{
+		.participants > .acceptor{
+			display: none;
+		}
+	}
+	.bet{
+		& > div{
+			width: 49%;
+			display: inline-block;
+		}
+	}
+	files-uploader{
+		margin-top: 20px;
+		margin-bottom: 10px;
+		display: inline-block;;
+	}
 
 	
 }

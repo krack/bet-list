@@ -1,3 +1,13 @@
-<bets-list-element [element]="bet" *ngFor="let bet of elements" [elements]="elements"></bets-list-element>
-
 <div *ngIf="bets?.length===0">aucun pari</div>
+
+<h2>Proposed</h2>
+<bets-list-element [element]="bet" *ngFor="let bet of elements| filterStatus:'proposed'" [elements]="elements"></bets-list-element>
+
+<h2>En cours</h2>
+<bets-list-element [element]="bet" *ngFor="let bet of elements| filterStatus:'accepted'" [elements]="elements"></bets-list-element>
+
+<h2>played</h2>
+<bets-list-element [element]="bet" *ngFor="let bet of elements| filterStatus:'played'" [elements]="elements"></bets-list-element>
+
+<h2>acquitted</h2>
+<bets-list-element [element]="bet" *ngFor="let bet of elements| filterStatus:'acquitted'" [elements]="elements"></bets-list-element>

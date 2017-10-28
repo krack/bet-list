@@ -5,7 +5,7 @@
   "angular-cli": {},
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 0.0.0.0",
+    "start": "npm rebuild node-sass --force;ng serve --host 0.0.0.0",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -14,7 +14,6 @@
   },
   "private": true,
   "dependencies": {
-    "angularjs-nodejs-framework": "git://github.com/krack/angularjs-nodejs-framework.git",
     "@angular/common": "^2.4.0",
     "@angular/compiler": "^2.4.0",
     "@angular/compiler-cli": "^2.4.9",
@@ -26,6 +25,7 @@
     "@angular/platform-server": "^2.4.9",
     "@angular/router": "^3.4.0",
     "angular2-uuid": "^1.1.1",
+    "angularjs-nodejs-framework": "git://github.com/krack/angularjs-nodejs-framework.git",
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
     "ng2-file-upload": "^1.2.0",

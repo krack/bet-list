@@ -149,6 +149,14 @@ var serviceBets = null;
 			"type": "String"
 		},
 		{
+			"name": "status",
+			"type": "String"
+		},		
+		{
+			"name": "victoriesConditions",
+			"type": "String"
+		},
+		{
 
 			"name": "issues",
 			"type": "String"
@@ -170,8 +178,22 @@ var serviceBets = null;
 			"security": "r"
 		},
 		{
-			"name": "accepted",
-			"type": "Boolean"
+			"name": "applicant",
+			"type": "String",
+			"security": "r"
+		},
+		{
+			"name": "acceptor",
+			"type": "String",
+			"security": "rw"
+		},		
+		{
+			"name": "applicantBet",
+			"type": "String"
+		},		
+		{
+			"name": "acceptorBet",
+			"type": "String"
 		}
 	]
 

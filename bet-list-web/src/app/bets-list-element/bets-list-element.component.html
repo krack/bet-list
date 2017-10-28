@@ -1,15 +1,110 @@
-<div [ngClass]="{'accepted': element.accepted}">
-	<button *ngIf="!element.accepted && connected && connected?._id ===  winner?._id" class="delete" (click)="deleteElement($event)" i18n="delete button" >delete</button>
-	<a *ngIf="!element.accepted && connected && connected?._id ===  winner?._id" class="update" [routerLink]="['/bet/',element._id]"  i18n="update button">update</a>
-	<button *ngIf="!element.accepted && connected  && connected?._id ===  winner?._id" class="accept" (click)="accepteBet()" i18n="delete button" >accept</button>
-	<span *ngIf="element.accepted" class="accept">accepté</span>
+<div [ngSwitch]="element.status">
 
-	<h1>{{element.title}}</h1>
-	<p>{{element.issues}}</p>
-	<div class="participants">
-		<span class="winner">gagnant : {{winner?.displayName}}</span>
-		<span class="looser">perdant : {{looser?.displayName}}</span>
+	<!-- card for proposed status -->
+	<div *ngSwitchCase="'proposed'" [ngClass]="{'acceptor': connected?._id ===  acceptor?._id, 'applicant': connected?._id !==  acceptor?._id}" class="proposed" >
+		<h1>{{element.title}}</h1>
+		<p>{{element.victoriesConditions}}</p>
+		<div class="participants">
+			<span class="applicant">Proposé par {{applicant?.displayName}}</span>
+			<span class="acceptor">Proposé à {{acceptor?.displayName}}</span>
+		</div>
+
+		<div class="bet">
+			<div class="applicant">
+				<h2>Enjeux de {{applicant?.displayName}}</h2>
+				{{element.applicantBet}}
+			</div>
+			<div class="acceptor">
+				<h2>Enjeux de {{acceptor?.displayName}}</h2>
+				{{element.acceptorBet}}
+			</div>
+		</div>
+
+		<section class="actions">
+			<button *ngIf="connected && connected?._id ===  acceptor?._id" class="reject" (click)="rejectBet()" >rejeter le pari</button>
+			<button *ngIf="connected && connected?._id ===  acceptor?._id" class="accept" (click)="acceptBet()" >accepter le pari</button>
+		</section>
 	</div>
-	
-	<files-uploader [list]="element.files" [readonly]="element.accepted" [endpoint]="endpoint"></files-uploader>
+
+	<!-- card for accepted status -->
+	<div *ngSwitchCase="'accepted'" [ngClass]="{'acceptor': connected?._id ===  acceptor?._id, 'applicant': connected?._id !==  acceptor?._id}" class="accepted">
+		<h1>{{element.title}}</h1>
+		<p>{{element.victoriesConditions}}</p>
+		<div class="participants">
+			<span class="applicant">En fight avec {{applicant?.displayName}}</span>
+			<span class="acceptor">En fight avec {{acceptor?.displayName}}</span>
+		</div>
+
+		<div class="bet">
+			<div class="applicant">
+				<h2>Enjeux de {{applicant?.displayName}}</h2>
+				{{element.applicantBet}}
+			</div>
+			<div class="acceptor">
+				<h2>Enjeux de {{acceptor?.displayName}}</h2>
+				{{element.acceptorBet}}
+			</div>
+		</div>
+
+		<section class="actions">
+			<button *ngIf="connected" class="loose" (click)="iLoose()" >J'ai perdu</button>
+			<button *ngIf="connected" class="win" (click)="iWin()" >J'ai gagné</button>
+		</section>			
+	</div>
+
+
+	<!-- card for played status -->
+	<div *ngSwitchCase="'played'"  [ngClass]="{'acceptor': connected?._id ===  acceptor?._id, 'applicant': connected?._id !==  acceptor?._id, 'winner': connected?._id ===  winner?._id, 'looser': connected?._id ===  looser?._id}" class="played">			
+		<h1>{{element.title}}</h1>
+		<div class="result">
+			<span *ngIf="connected?._id ===  winner?._id"> 
+					"{{looser?.displayName}}" te doit "
+					<span *ngIf="acceptor?._id !==  winner?._id">{{element.acceptorBet}}</span>
+					<span *ngIf="applicant?._id !==  winner?._id">{{element.applicantBet}}</span>
+					"
+			</span>
+			<span *ngIf="connected?._id !==  winner?._id"> 
+					Tu dois "
+					<span *ngIf="acceptor?._id !==  winner?._id">{{element.acceptorBet}}</span>
+					<span *ngIf="applicant?._id !==  winner?._id">{{element.applicantBet}}</span>
+					" à  "{{winner?.displayName}}"
+			</span>
+		</div>
+
+		<files-uploader [list]="element.files" [endpoint]="endpoint"></files-uploader>
+		<section class="actions">
+			<button *ngIf="connected && connected?._id ===  winner?._id" class="acquitted" (click)="acquitteBet()" >acquitted</button>
+		</section>
+
+		
+			
+	</div>
+
+
+	<!-- card for acquitted status -->
+	<div *ngSwitchCase="'acquitted'" class="acquitted">
+		<h1>{{element.title}}</h1>
+		<div class="result">
+			<span *ngIf="connected?._id ===  winner?._id"> 
+					Tu as gagné "
+					<span *ngIf="acceptor?._id !==  winner?._id">{{element.acceptorBet}}</span>
+					<span *ngIf="applicant?._id !==  winner?._id">{{element.applicantBet}}</span>
+					" face à "{{looser?.displayName}}"
+			</span>
+			<span *ngIf="connected?._id !==  winner?._id"> 
+					Tu as perdu "
+					<span *ngIf="acceptor?._id !==  winner?._id">{{element.acceptorBet}}</span>
+					<span *ngIf="applicant?._id !==  winner?._id">{{element.applicantBet}}</span>
+					" face à "{{winner?.displayName}}"
+			</span>
+		</div>
+			
+		<files-uploader [list]="element.files" [readonly]="true" [endpoint]="endpoint"></files-uploader>
+
+	</div>
+
+
+	<div *ngSwitchDefault>default</div>
 </div>
+
+
