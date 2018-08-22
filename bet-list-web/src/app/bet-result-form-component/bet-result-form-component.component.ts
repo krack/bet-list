@@ -6,11 +6,11 @@ import { ElementComponent, UsersService, User } from 'angularjs-nodejs-framework
 
 import { Bet } from '../model/bet';
 import { BetsService } from '../bets.service';
-import { FileUploader, FileSelectDirective} from 'ng2-file-upload'
+import { FileUploader, FileSelectDirective } from 'ng2-file-upload'
 
-import {environment} from '../../environments/environment';
+import { environment } from '../../environments/environment';
 
-const URL =  environment.apiUrl+'bets/';
+const URL = environment.apiUrl + 'bets/';
 
 @Component({
 	moduleId: module.id,
@@ -21,14 +21,15 @@ const URL =  environment.apiUrl+'bets/';
 
 })
 export class BetResultFormComponent extends ElementComponent<Bet> implements OnInit {
-	private usersService:UsersService;
-	public users:User[] = [];
+	private usersService: UsersService;
+	public users: User[] = [];
 
 
-	constructor( router: Router, route: ActivatedRoute, betsService: BetsService, usersService: UsersService) {
-		super("/bet/", betsService, router, route);
-		this.usersService= usersService;
+	constructor(router: Router, route: ActivatedRoute, betsService: BetsService, usersService: UsersService) {
+		super('/bet/', betsService, router, route);
+		this.usersService = usersService;
 		this.element = new Bet(undefined);
+		this.element.status = 'played';
 	}
 
 	ngOnInit() {
@@ -36,5 +37,12 @@ export class BetResultFormComponent extends ElementComponent<Bet> implements OnI
 		});
 
 		this.usersService.getAlls().subscribe((users: User[]) => this.users = users);
+	}
+
+	saveElement(): void {
+		this.element.victoriesConditions = 'Déjà parié';
+		this.element.acceptorBet = this.element.applicantBet;
+		this.element.winneur = this.element.applicant;
+		super.saveElement();
 	}
 }

@@ -12,20 +12,20 @@
 			</div>
 
 			<div class="form-group">
-				<label for="issues">issues</label>
-				<textarea type="text" class="form-control" [(ngModel)]="element.issues" id="issues" name="issues"></textarea>
+				<label for="applicantBet">issues</label>
+				<textarea type="text" class="form-control" [(ngModel)]="element.applicantBet" id="applicantBet" name="applicantBet"></textarea>
 			</div>
 
 			<div class="form-group">
 				<label for="winner">gagnant</label>
-				<select class="form-control" [(ngModel)]="element.winneur" id="winner" name="winner" required >
+				<select class="form-control" [(ngModel)]="element.applicant" id="winner" name="winner" required>
 					<option *ngFor="let user of users" [ngValue]="user._id">{{user.displayName}}</option>
 				</select>
 			</div>
 
 			<div class="form-group">
 				<label for="looser">perdant</label>
-				<select class="form-control" [(ngModel)]="element.looser" id="looser" name="looser" required >
+				<select class="form-control" [(ngModel)]="element.acceptor" id="looser" name="looser" required>
 					<option *ngFor="let user of users" [ngValue]="user._id">{{user.displayName}}</option>
 				</select>
 			</div>
