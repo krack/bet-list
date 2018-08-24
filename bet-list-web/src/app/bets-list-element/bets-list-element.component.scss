@@ -30,25 +30,6 @@ $fa-font-path: "//netdna.bootstrapcdn.com/font-awesome/4.7.0/fonts";
 				margin-right: 10px;
 			}
 		}
-	/*	button.accept{
-			@extend .fa;
-			@extend .fa-check-circle;
-			
-		}
-		button.reject{
-			@extend .fa;
-			@extend .fa-close;
-		}
-		button.win{
-			@extend .fa;
-			@extend .fa-smile-o;
-			
-		}
-		button.loose{
-			@extend .fa;
-			@extend .fa-frown-o;
-			
-		}*/
 	}
 	p{
 		width: 75%;
@@ -65,15 +46,8 @@ $fa-font-path: "//netdna.bootstrapcdn.com/font-awesome/4.7.0/fonts";
 		opacity: 0.5;
 	}
 
-	.proposed.applicant, .accepted.applicant{
-		.participants > .applicant{
-			display: none;
-		}
-	}
-	.proposed.acceptor, .accepted.acceptor{
-		.participants > .acceptor{
-			display: none;
-		}
+	.participants > span{
+		display: none;
 	}
 	.bet{
 		& > div{
@@ -88,4 +62,123 @@ $fa-font-path: "//netdna.bootstrapcdn.com/font-awesome/4.7.0/fonts";
 	}
 
 	
+	.participants display-user{
+		display: inherit !important;
+		
+	}
+	.proposed.applicant{
+		.participants display-user.applicant{
+			display: none !important;
+		}
+	}
+	.proposed.acceptor{
+		.participants display-user.acceptor{
+			display: none !important;
+		}
+	}
+}
+
+/* positionning of picture */
+display-user{
+	position: absolute;
+	top: 0px;
+	right: 0;
+
+}
+
+$accepted_size:90px;
+$accepted_offet: 25px;
+$corner_offset: 3px;
+$winner_offset: 5px;
+
+.proposed{
+	display-user{
+		
+		width: $accepted_size;
+		height: $accepted_size;
+		top: $corner_offset;
+		right: $corner_offset;
+		@extend .fa;
+		@extend .fa-fire;
+		&::before{
+			color: red;
+			font-size: 2em;
+			position: absolute;
+			right: 12px;
+			top: 5px;
+			z-index: 999;
+		}
+		
+	}
+	display-user.acceptor::before{
+		color: white;
+	}
+}
+.accepted{
+	display-user{
+		width: $accepted_size;
+		height: $accepted_size;
+		top: $corner_offset;
+		right: $corner_offset;
+		&.applicant{
+			right: $accepted_size - $accepted_offet +$corner_offset;
+			&::after{
+				position: absolute;
+				content: 'vs';
+				right: - $accepted_offet/2+$corner_offset;
+				bottom: - $accepted_size/2+$corner_offset;
+				font-family: BaroqueScriptRegular;
+				color: $primary-color; 
+				text-shadow: 1px 1px #000, -1px 1px #000, -1px -1px #000, 1px -1px #000;
+				font-size: 3em;
+				line-height: 300%;
+				z-index: 999;
+			}
+		}
+		&.acceptor{
+			top: $accepted_size - $accepted_offet;
+			right: $corner_offset;
+			
+		}
+	}
+}
+
+.played, .acquitted{
+	display-user{
+		top: $corner_offset;
+		right: $corner_offset;
+		&.applicant{
+			right: $accepted_size - $accepted_offet +$corner_offset;
+		}
+		&.acceptor{
+			top: $accepted_size - $accepted_offet;
+			right: $corner_offset;	
+		}
+		&.winner{
+			width: $accepted_size + $winner_offset;
+			height: $accepted_size + $winner_offset;
+			z-index: 50;
+		}
+		&.looser{
+			width: $accepted_size - $winner_offset;
+			height: $accepted_size - $winner_offset;
+			z-index: 40;
+		}
+	}
+}
+
+@media all and (max-width: 768px){
+	:host > div{
+		.participants{
+			float: none;
+			position: relative;
+			height: $accepted_size*2;
+			width: $accepted_size*2 - $accepted_offet ;
+			margin: auto;
+		}
+		.proposed .participants{
+			height: $accepted_size;
+			width: $accepted_size;
+		}
+	}
 }

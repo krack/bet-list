@@ -1,0 +1,35 @@
+$fa-font-path: "//netdna.bootstrapcdn.com/font-awesome/4.7.0/fonts";
+@import '~font-awesome/scss/font-awesome.scss';
+@import '../themes';
+
+:host{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+
+}
+div{
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    img{
+        width: 100%;
+        height: 100%;
+    }
+    span{
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 10px;
+        font-size: 0.6em;
+        line-height: 100%;
+        font-family: BaroqueScriptRegular;
+        color: $secondary-color; 
+        text-shadow: 1px 1px #000, -1px 1px #000, -1px -1px #000, 1px -1px #000;
+        &.top{
+            top: 10px;
+            bottom: none;
+        }
+    } 
+}

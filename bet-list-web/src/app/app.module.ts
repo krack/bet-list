@@ -9,6 +9,7 @@ import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 
 import { AppComponent } from './app.component';
 import { SelectUserComponent } from './select-user/select-user.component';
+import { DisplayUserComponent } from './display-user/display-user.component';
 import { BetsListComponent } from './bets-list/bets-list.component';
 import { BetsFormComponent } from './bets-form-component/bets-form-component.component';
 import { BetsListElementComponent } from './bets-list-element/bets-list-element.component';
@@ -54,7 +55,8 @@ const appRoutes: Routes = [
     BetResultFormComponent,
     BetProposalFormComponent,
     FilterPipe,
-    SelectUserComponent
+    SelectUserComponent,
+    DisplayUserComponent
   ],
   imports: [
     BrowserModule,
