@@ -1,0 +1,5 @@
+<ul>
+    <li *ngFor="let user of users" [ngClass]="{'selected': user._id == innerValue}" (click)="select(user)">
+        <img [src]="user.profilPhoto" [alt]="user.displayName" /> <span>{{user.displayName}}</span>
+    </li>
+</ul>

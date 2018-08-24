@@ -1,0 +1,53 @@
+$fa-font-path: "//netdna.bootstrapcdn.com/font-awesome/4.7.0/fonts";
+@import '~font-awesome/scss/font-awesome.scss';
+@import '../themes';
+
+
+ul{
+    padding: 0;
+    margin: 0;
+}
+li{
+    display: inline-block;
+    position: relative;
+    list-style: none;
+    width: 150px;
+    height: 150px;
+
+    &.selected{
+        img{
+            border-radius: 50%;
+        }
+        &{
+            @extend .fa;
+            @extend .fa-check-circle;
+            &::before{
+                display: block;
+                text-align: center;
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                color: green;
+                text-shadow: none;
+                font-size: 2em;
+            }
+        }
+        
+        
+    }
+    img{
+        width: 150px;
+        height: 150px;
+    }
+    span{
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 10px;
+        font-size: 0.6em;
+        line-height: 100%;
+        font-family: BaroqueScriptRegular;
+        color: $secondary-color; 
+        text-shadow: 1px 1px #000, -1px 1px #000, -1px -1px #000, 1px -1px #000;
+    } 
+}

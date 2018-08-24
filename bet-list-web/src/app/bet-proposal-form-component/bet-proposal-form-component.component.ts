@@ -6,11 +6,11 @@ import { ElementComponent, UsersService, User } from 'angularjs-nodejs-framework
 
 import { Bet } from '../model/bet';
 import { BetsService } from '../bets.service';
-import { FileUploader, FileSelectDirective} from 'ng2-file-upload'
+import { FileUploader, FileSelectDirective } from 'ng2-file-upload'
 
-import {environment} from '../../environments/environment';
+import { environment } from '../../environments/environment';
 
-const URL =  environment.apiUrl+'bets/';
+const URL = environment.apiUrl + 'bets/';
 
 @Component({
 	moduleId: module.id,
@@ -21,32 +21,32 @@ const URL =  environment.apiUrl+'bets/';
 
 })
 export class BetProposalFormComponent extends ElementComponent<Bet> implements OnInit {
-	private usersService:UsersService;
-	public otherUsers:User[] = [];
-  private connected:User;
+	private usersService: UsersService;
+	public otherUsers: User[] = [];
+	private connected: User;
 
 
-	constructor( router: Router, route: ActivatedRoute, betsService: BetsService, usersService: UsersService) {
-		super("/bet/", betsService, router, route);
-		this.usersService= usersService;
+	constructor(router: Router, route: ActivatedRoute, betsService: BetsService, usersService: UsersService) {
+		super('/bet/', betsService, router, route);
+		this.usersService = usersService;
 		this.element = new Bet(undefined);
-		this.element.status = "proposed"
-    this.connected = new User(undefined);
+		this.element.status = 'proposed';
+		this.connected = new User(undefined);
 	}
 
 	ngOnInit() {
 		this.initElementFromUrlParameter().subscribe(() => {
 		});
-    this.usersService.getConnectedUser().subscribe((user: User)=> {
-      if(user){
-        this.connected = user;
-        console.log(this.connected)
-        this.element.applicant = this.connected._id;
-      }
-    });
-    this.usersService.getAlls().subscribe((users: User[]) => {
-      this.otherUsers = users.filter(obj => obj._id !== this.connected._id)
-    });
-    
+		this.usersService.getConnectedUser().subscribe((user: User) => {
+			if (user) {
+				this.connected = user;
+				console.log(this.connected);
+				this.element.applicant = this.connected._id;
+			}
+		});
+		this.usersService.getAlls().subscribe((users: User[]) => {
+			this.otherUsers = users.filter(obj => obj._id !== this.connected._id);
+		});
+
 	}
 }

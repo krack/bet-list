@@ -8,6 +8,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 
 import { AppComponent } from './app.component';
+import { SelectUserComponent } from './select-user/select-user.component';
 import { BetsListComponent } from './bets-list/bets-list.component';
 import { BetsFormComponent } from './bets-form-component/bets-form-component.component';
 import { BetsListElementComponent } from './bets-list-element/bets-list-element.component';
@@ -18,13 +19,13 @@ import { FilesUploaderComponent, AppSettings } from 'angularjs-nodejs-framework/
 
 
 
-import {environment} from '../environments/environment';
+import { environment } from '../environments/environment';
 import { FilterPipe } from './filter.pipe';
 
 
 const appRoutes: Routes = [
-  { path: 'bet',      component: BetsFormComponent },
-  { path: 'bet/:id',      component: BetsFormComponent },
+  { path: 'bet', component: BetsFormComponent },
+  { path: 'bet/:id', component: BetsFormComponent },
   {
     path: 'bets',
     component: BetsListComponent
@@ -34,7 +35,8 @@ const appRoutes: Routes = [
     component: LoginComponent,
     data: { baseUrl: environment.apiUrl.replace("/api/", "/") }
   },
-  { path: '',
+  {
+    path: '',
     redirectTo: '/bets',
     pathMatch: 'full'
   }
@@ -51,18 +53,19 @@ const appRoutes: Routes = [
     FilesUploaderComponent,
     BetResultFormComponent,
     BetProposalFormComponent,
-    FilterPipe
+    FilterPipe,
+    SelectUserComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-     RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { 
+export class AppModule {
   constructor() {
     AppSettings.API_ENDPOINT = environment.apiUrl;
   }

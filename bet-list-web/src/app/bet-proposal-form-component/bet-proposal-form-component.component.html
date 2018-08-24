@@ -1,43 +1,45 @@
 <div class="container">
-	<h1 *ngIf="!element._id">Ajouter un Pari</h1>
-	<h1 *ngIf="element._id">Modifier un Pari</h1>
+  <h1 *ngIf="!element._id">Ajouter un Pari</h1>
+  <h1 *ngIf="element._id">Modifier un Pari</h1>
 
-	<div class="body">
-		<form (ngSubmit)="saveElement()">
-			<input type="hidden" class="form-control" [(ngModel)]="element._id" id="_id" name="_id">
+  <div class="body">
+    <form (ngSubmit)="saveElement()">
+      <input type="hidden" class="form-control" [(ngModel)]="element._id" id="_id" name="_id">
+
+
+
 
       <div class="form-group">
-          <label for="winner">proposer à </label>
-          <select class="form-control" [(ngModel)]="element.acceptor" id="acceptor" name="acceptor" required >
-            <option *ngFor="let user of otherUsers" [ngValue]="user._id">{{user.displayName}}</option>
-          </select>
-        </div>
-
-			<div class="form-group">
-				<label for="title">Title</label>
-				<input type="text" class="form-control" [(ngModel)]="element.title" id="title" name="title" required />
+        <label for="title">Title du pari</label>
+        <input type="text" class="form-control" [(ngModel)]="element.title" id="title" name="title" required />
       </div>
       <input type="hidden" [(ngModel)]="element.status" id="status" name="status" />
 
-			<div class="form-group">
-				<label for="victoriesConditions">Conditions de victoires : </label>
-				<textarea class="form-control" [(ngModel)]="element.victoriesConditions" id="victoriesConditions" name="victoriesConditions" required></textarea>
+      <div class="form-group">
+        <label for="winner">J'affronte : </label>
+        <select-user [(ngModel)]="element.acceptor" id="acceptor" name="acceptor" [users]="otherUsers"></select-user>
       </div>
-      
- 			<input type="hidden" [(ngModel)]="element.applicant" id="applicant" name="applicant" />
 
-       <div class="form-group">
-          <label for="applicantBet">Je pari: </label>
-          <textarea class="form-control" [(ngModel)]="element.applicantBet" id="applicantBet" name="applicantBet" required></textarea>
+      <div class="form-group">
+        <label for="victoriesConditions">Conditions de victoires : </label>
+        <textarea class="form-control" [(ngModel)]="element.victoriesConditions" id="victoriesConditions" name="victoriesConditions"
+          required></textarea>
+      </div>
+
+      <input type="hidden" [(ngModel)]="element.applicant" id="applicant" name="applicant" />
+
+      <div class="form-group">
+        <label for="applicantBet">Je met en jeu : </label>
+        <textarea class="form-control" [(ngModel)]="element.applicantBet" id="applicantBet" name="applicantBet" required></textarea>
       </div>
       <div class="form-group">
-        <label for="acceptorBet">tu pari: </label>
+        <label for="acceptorBet">J'espère obtenir : </label>
         <textarea class="form-control" [(ngModel)]="element.acceptorBet" id="acceptorBet" name="acceptorBet" required></textarea>
       </div>
 
 
-			<button type="submit">Proposer</button>
-		</form>
+      <button type="submit">Proposer</button>
+    </form>
 
-	</div>
+  </div>
 </div>

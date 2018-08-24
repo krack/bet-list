@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {DomSanitizer} from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 
@@ -12,11 +12,11 @@ import { BetsService } from '../bets.service';
   selector: 'bets-list',
   templateUrl: './bets-list.component.html',
   styleUrls: ['./bets-list.component.scss'],
-  providers:  [BetsService]
+  providers: [BetsService]
 })
-export class BetsListComponent  extends ListElements<Bet> {
+export class BetsListComponent extends ListElements<Bet> {
 
-  constructor (betsService: BetsService, router:Router) {
+  constructor(betsService: BetsService, router: Router) {
     super(betsService, router);
   }
 
