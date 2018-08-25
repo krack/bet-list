@@ -12,9 +12,11 @@ services:
   load-balancer-api:
     ports:
     - ${HOST_PORT_API}
-    image: rancher/lb-service-haproxy:v0.6.4
+    image: rancher/lb-service-haproxy:v0.9.4
     labels:
-      proxy_url: ${EXPOSE_API_URL}
+      rap.host: ${EXPOSE_API_URL}
+      rap.le_host: ${EXPOSE_API_URL}
+      rap.port: ${HOST_PORT_API}
   api:
     image: krack/bet-list-api:${TAG}
     links:
@@ -39,9 +41,11 @@ services:
   load-balancer-web:
     ports:
     - ${HOST_PORT_WEB}
-    image: rancher/lb-service-haproxy:v0.6.4
+    image: rancher/lb-service-haproxy:v0.9.4
     labels:
-      proxy_url: ${EXPOSE_SITE_URL}
+      rap.host: ${EXPOSE_SITE_URL}
+      rap.le_host: ${EXPOSE_SITE_URL}
+      rap.port: ${HOST_PORT_WEB}
   web:
     image: httpd:2.4
     image: krack/bet-list-web:${TAG}
