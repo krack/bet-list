@@ -23,7 +23,7 @@ services:
     - mongo
     restart: always
     environment:
-    - ALLOW_URL=http://${EXPOSE_SITE_URL}
+    - ALLOW_URL=https://${EXPOSE_SITE_URL}
     - SERVER_HOST=http://${EXPOSE_API_URL}
     - SERVER_PORT=${HOST_PORT_API}
     - SERVER_PUBLIC_PORT=80
