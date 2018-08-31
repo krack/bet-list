@@ -47,6 +47,15 @@ nav{
 			color: #777777;
 		}
 	}
+	.users{
+		@extend .fa;
+    	@extend .fa-users;
+		font-size: 0px;
+		color: #cccccc;
+		&:before{
+			font-size: 30px;
+		}
+	}
 	.login{
 
 	}

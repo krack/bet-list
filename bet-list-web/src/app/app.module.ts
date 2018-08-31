@@ -16,7 +16,13 @@ import { BetsListElementComponent } from './bets-list-element/bets-list-element.
 import { BetResultFormComponent } from './bet-result-form-component/bet-result-form-component.component';
 import { BetProposalFormComponent } from './bet-proposal-form-component/bet-proposal-form-component.component';
 import { LoginComponent } from 'angularjs-nodejs-framework/angularjs-nodejs-framework';
-import { FilesUploaderComponent, AppSettings } from 'angularjs-nodejs-framework/angularjs-nodejs-framework';
+import { FilesUploaderComponent } from 'angularjs-nodejs-framework/angularjs-nodejs-framework';
+import { UsersListComponent } from 'angularjs-nodejs-framework/angularjs-nodejs-framework';
+import { UsersListElementComponent, AppSettings } from 'angularjs-nodejs-framework/angularjs-nodejs-framework';
+
+
+import { IfAdministratorDirective } from './if-administrator.directive';
+
 
 
 
@@ -31,6 +37,7 @@ const appRoutes: Routes = [
     path: 'bets',
     component: BetsListComponent
   },
+  { path: 'users', component: UsersListComponent },
   {
     path: 'login',
     component: LoginComponent,
@@ -56,7 +63,10 @@ const appRoutes: Routes = [
     BetProposalFormComponent,
     FilterPipe,
     SelectUserComponent,
-    DisplayUserComponent
+    DisplayUserComponent,
+    IfAdministratorDirective,
+    UsersListComponent,
+    UsersListElementComponent
   ],
   imports: [
     BrowserModule,
